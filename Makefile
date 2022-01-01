@@ -60,6 +60,8 @@ nerd-fonts:
 xmonad: rust
 	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
 	$(PKGINSTALL)	lxappearance xterm xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3
+	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
+	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 
 
 #########################################
@@ -151,6 +153,7 @@ python:
 
 rust:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	source $HOME/.cargo/env
 
 #########################################
 #
