@@ -45,8 +45,9 @@ picom:
 
 alacritty:
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
+	rm -rf $(CDSOURCES)/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
-	$(CDSOURCES)/alacritty && cargo run --manifest-path Cargo.toml
+	$(CDSOURCES)/Alacritty && cargo run --manifest-path Cargo.toml
 	sudo mkdir -p /usr/local/share/man/man1
 	$(CDSOURCES)/Alacritty && gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 	$(CDSOURCES)/Alacritty && sudo cp target/debug/alacritty /usr/local/bin
