@@ -22,6 +22,24 @@ all: all-system all-drivers all-languages nvim
 #
 #########################################
 
+base:
+	echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /etc/apt/sources.list.d/non-free
+
+#########################################
+#
+#			Xserver	
+#
+#########################################
+
+xserver:
+	$(PKGINSTALL) xorg xserver-xorg-video-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers
+
+#########################################
+#
+#			System	
+#
+#########################################
+
 all-system: pkgs snaps zsh picom alacritty nerd-fonts xmonad 
 
 pkgs:
@@ -74,6 +92,9 @@ apache:
 	a2enmod rewrite
 	a2enmod ssl
 	a2enmod vhost_alias
+
+
+
 
 #########################################
 #
