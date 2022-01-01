@@ -48,8 +48,8 @@ alacritty:
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
 	$(CDSOURCES)/alacritty && cargo run --manifest-path Cargo.toml
 	sudo mkdir -p /usr/local/share/man/man1
-	$(CDSOURCES)/alacritty && gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-	$(CDSOURCES)/alacritty && sudo cp target/debug/alacritty /usr/local/bin
+	$(CDSOURCES)/Alacritty && gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+	$(CDSOURCES)/Alacritty && sudo cp target/debug/alacritty /usr/local/bin
 	gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 
 nerd-fonts:
