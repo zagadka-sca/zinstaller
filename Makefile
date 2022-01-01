@@ -23,49 +23,19 @@ all: all-system all-drivers all-languages nvim
 #########################################
 
 base:
-	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free"
+	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free.list"
+	sudo apt-get update && sudo apt-get upgrade
+	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux
 
 #########################################
 #
-#			Xserver	
+#			X Base System	
 #
 #########################################
 
 xserver:
-	$(PKGINSTALL) xorg xserver-xorg-video-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers
-
-#########################################
-#
-#			System	
-#
-#########################################
-
-all-system: pkgs snaps zsh picom alacritty nerd-fonts xmonad 
-
-pkgs:
-	# System Packages
-	$(PKGINSTALL) software-properties-common vim build-essential cmake libtool m4 automake libfreetype-dev xcb libxcb1-dev libxcb-render0-dev libxcb-shape0-dev pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev autojump dnsmasq net-tools locate pkg-config autotools-dev autoconf bluetooth rfkill blueman bluez bluez-tools pulseaudio-module-bluetooth tmux xterm dmenu xscreensaver xscreensaver-data-extra xscreensaver-gl-extra nmon libsasl2-dev python-dev libldap2-dev libssl-dev gimp xpad xautolock flameshot curl git gnome-tweak-tool rtorrent pgcli postgresql libxkbcommon-dev mesa-utils stalonetray lxappearance picom trayer volumeicon-alsa
-	# System tools
-	$(PKGINSTALL) net-tools htop dnsmasq g810-led gnome-tweaks usb-creator-gtk locate rfkill blueman bluez bluez-tools pulseaudio-module-bluetooth tmux xterm dmenu xscreensaver xscreensaver-data-extra xscreensaver-gl-extra nmon libsasl2-dev python-dev libldap2-dev libssl-dev gimp xpad xautolock flameshot curl git gnome-tweak-tool rtorrent pgcli postgresql libxkbcommon-dev mesa-utils stalonetray lxappearance picom trayer volumeicon-alsa luajit bpytop python3-venv lsd
-	# X Programs
-	$(PKGINSTALL) vim-gtk3 vlc gnome-screensaver tmux xterm dmenu xscreensaver xscreensaver-data-extra xscreensaver-gl-extra nmon libsasl2-dev gimp xpad xautolock flameshot rtorrent lxappearance trayer volumeicon-alsa bpytop luajit 
-
-snaps:
-	$(SNAPINSTALL) starship
-	$(SNAPINSTALL) chromium
-	$(SNAPINSTALL) slack --classic
-	$(SNAPINSTALL) brave
-	$(SNAPINSTALL) enpass
-	$(SNAPINSTALL) spotify --classic
-	$(SNAPINSTALL) postman --classic
-
-zsh: lsd
-	$(PKGINSTALL) zsh zsh-theme-powerlevel9k
-	$(LN) $(BASE)/dotfiles/config/zsh $(HOME)/.config/zsh
-	$(LN) $(BASE)/dotfiles/zshrc $(HOME)/.zshrc
-	
-lsd:
-	$(CDPACKAGES) && sudo dpkg -i lsd-musl_0.20.1_amd64.deb 
+	$(PKGINSTALL) xorg xserver-xorg-video-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers 
+	sudo Xorg -configure
 
 picom:
 	$(PKGINSTALL) libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
@@ -86,15 +56,62 @@ nerd-fonts:
 	$(CDSOURCES)/nerd-fonts && ./install.sh
 
 xmonad:
-	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu
+	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
+	$(PKGINSTALL)	lxappearance xterm xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3
+
+
+#########################################
+#
+#			X Apps	
+#
+#########################################
+
+pkgs:
+	# System Packages
+	$(PKGINSTALL) libfreetype-dev xcb libxcb1-dev libxcb-render0-dev libxcb-shape0-dev  libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev autojump  bluetooth rfkill blueman bluez bluez-tools pulseaudio-module-bluetooth tmux xterm dmenu xscreensaver xscreensaver-data-extra xscreensaver-gl-extra nmon libsasl2-dev libssl-dev gimp xpad xautolock flameshot curl git gnome-tweak-tool rtorrent pgcli postgresql libxkbcommon-dev mesa-utils stalonetray lxappearance picom trayer volumeicon-alsa
+	# System tools
+	$(PKGINSTALL) g810-led gnome-tweaks usb-creator-gtk locate rfkill blueman bluez bluez-tools pulseaudio-module-bluetooth libsasl2-dev python-dev libldap2-dev libssl-dev gimp xpad  flameshot   gnome-tweak-tool rtorrent pgcli postgresql libxkbcommon-dev mesa-utils     volumeicon-alsa luajit bpytop python3-venv lsd
+	# X Programs
+	$(PKGINSTALL) vlc tmux nmon libsasl2-dev gimp xpad  flameshot rtorrent  volumeicon-alsa luajit 
+
+snaps:
+	$(SNAPINSTALL) starship
+	$(SNAPINSTALL) chromium
+	$(SNAPINSTALL) slack --classic
+	$(SNAPINSTALL) brave
+	$(SNAPINSTALL) enpass
+	$(SNAPINSTALL) spotify --classic
+	$(SNAPINSTALL) postman --classic
 
 apache:
 	a2enmod rewrite
 	a2enmod ssl
 	a2enmod vhost_alias
 
+#########################################
+#
+#			System	
+#
+#########################################
 
+zsh: lsd
+	$(PKGINSTALL) zsh zsh-theme-powerlevel9k
+	$(LN) $(BASE)/dotfiles/config/zsh $(HOME)/.config/zsh
+	$(LN) $(BASE)/dotfiles/zshrc $(HOME)/.zshrc
+	
+lsd:
+	$(CDPACKAGES) && sudo dpkg -i lsd-musl_0.20.1_amd64.deb 
 
+#########################################
+#
+#			Server	
+#
+#########################################
+
+apache:
+	a2enmod rewrite
+	a2enmod ssl
+	a2enmod vhost_alias
 
 #########################################
 #
