@@ -23,7 +23,7 @@ all: all-system all-drivers all-languages nvim
 #########################################
 
 base:
-	echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /etc/apt/sources.list.d/non-free
+	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free"
 
 #########################################
 #
