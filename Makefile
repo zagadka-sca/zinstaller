@@ -43,7 +43,7 @@ picom:
 	$(CDSOURCES) && $(GITCLONE) https://github.com/ibhagwan/picom.git
 	$(CDSOURCES)/picom && meson --buildtype=release . build && ninja -C build &&	sudo ninja -C build install
 
-alacritty:
+alacritty: rust
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
 	rm -rf $(CDSOURCES)/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
@@ -57,7 +57,7 @@ nerd-fonts:
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/ryanoasis/nerd-fonts
 	$(CDSOURCES)/nerd-fonts && ./install.sh
 
-xmonad:
+xmonad: rust
 	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
 	$(PKGINSTALL)	lxappearance xterm xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3
 
