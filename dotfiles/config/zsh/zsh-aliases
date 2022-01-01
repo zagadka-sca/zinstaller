@@ -1,0 +1,48 @@
+### ALIAS
+# navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# adding flags
+alias df='df -h'                          # human-readable sizes
+alias free='free -m'                      # show sizes in MB
+alias ls='lsd'
+alias l='lsd -lah'
+alias ll='lsd -lah'
+
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+alias ap='ansible-playbook'
+alias tf='terraform'
+
+alias vi='nvim'
+alias eq='vi ~/.config/qtile/config.py'
+alias ea='vi ~/.config/alacritty/alacritty.yml'
+alias ev='vi ~/.vimrc'
+alias ez='vi ~/.zshrc'
+alias eu='vi ~/.config/qtile/autostart.sh'
+alias ex='vi ~/.xmonad/xmonad.hs'
+alias h='history'
+
+alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+
+alias b='blueman-manager'
+alias vup='nmcli connection up fw1'
+alias vdown='nmcli connection down fw1'
+
+alias a='source venv/bin/activate'
+
