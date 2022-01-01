@@ -23,6 +23,7 @@ all: all-system all-drivers all-languages nvim
 #########################################
 
 base:
+	mkdir -p ~/.config
 	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free.list"
 	sudo apt-get update && sudo apt-get upgrade
 	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux
@@ -98,6 +99,7 @@ zsh: lsd
 	$(PKGINSTALL) zsh zsh-theme-powerlevel9k
 	$(LN) $(BASE)/dotfiles/config/zsh $(HOME)/.config/zsh
 	$(LN) $(BASE)/dotfiles/zshrc $(HOME)/.zshrc
+	sudo chsh -s /usr/bin/zsh scalaci
 	
 lsd:
 	$(CDPACKAGES) && sudo dpkg -i lsd-musl_0.20.1_amd64.deb 
