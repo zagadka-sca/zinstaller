@@ -208,5 +208,6 @@ virtualization:
 user:
 	mkdir -p ~/Documents
 	cp -rf $(BASE)/wallpapers ~/Documents/
-	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config
-
+	rm -rf $(HOME)/.config/nitrogen
+	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
+		
