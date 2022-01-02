@@ -14,7 +14,7 @@ clean:
 	$(RM) $(BASE)/node_modules
 	$(RM) $(BASE)/sources/*
 
-all: all-system all-drivers all-languages nvim
+stage-one: base zsh xserver xserver-base 
 
 #########################################
 #
@@ -35,8 +35,13 @@ base:
 #########################################
 
 xserver:
-	$(PKGINSTALL) xorg xserver-xorg-video-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers 
+	$(PKGINSTALL) xorg xserver-xorg-video-all xserver-xorg-input-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers 
 	sudo Xorg -configure
+	sudo cp -f ~/xorg.conf.new /etc/X11/xorg.conf
+
+xserver-base:
+	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm
+	#sudo service lightdm restart
 
 picom:
 	$(PKGINSTALL) libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
@@ -45,7 +50,7 @@ picom:
 
 alacritty: rust
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
-	rm -rf $(CDSOURCES)/Alacritty
+	$(RM) $(BASE)/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
 	$(CDSOURCES)/Alacritty && cargo run --manifest-path Cargo.toml
 	sudo mkdir -p /usr/local/share/man/man1
@@ -59,9 +64,10 @@ nerd-fonts:
 
 xmonad: rust
 	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
-	$(PKGINSTALL)	lxappearance xterm xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3
 	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
+	$(LN) $(BASE)/dotfiles/xmonad.desktop /usr/share/lightdm/lightdm.conf.d/xmonad.desktop
+
 
 
 #########################################
@@ -153,7 +159,7 @@ python:
 
 rust:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	source $HOME/.cargo/env
+	source ~/.cargo/env
 
 #########################################
 #
@@ -163,6 +169,7 @@ rust:
 
 neovim: all-languages
 	$(PKGINSTALL) ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+	$(RM) $(BASE)/neovim
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/neovim/neovim.git 
 	$(CDSOURCES)/neovim/ && git checkout stable && make CMAKE_BUILD_TYPE=Release && make install
 	$(NPMINSTALL) typescript 
