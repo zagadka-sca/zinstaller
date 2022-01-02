@@ -48,7 +48,7 @@ picom:
 	$(CDSOURCES) && $(GITCLONE) https://github.com/ibhagwan/picom.git
 	$(CDSOURCES)/picom && meson --buildtype=release . build && ninja -C build &&	sudo ninja -C build install
 
-alacritty: rust
+alacritty: 
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
 	$(RM) $(BASE)/sources/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
@@ -68,7 +68,7 @@ xmonad: rust
 	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
 	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
-	$(LN) $(BASE)/dotfiles/xmonad.desktop /usr/share/lightdm/lightdm.conf.d/xmonad.desktop
+	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
 
 #########################################
@@ -208,3 +208,5 @@ virtualization:
 user:
 	mkdir -p ~/Documents
 	cp -rf $(BASE)/wallpapers ~/Documents/
+	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config
+
