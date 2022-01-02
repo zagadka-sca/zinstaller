@@ -40,7 +40,7 @@ xserver:
 	sudo cp -f ~/xorg.conf.new /etc/X11/xorg.conf
 
 xserver-base:
-	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm
+	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogenjjjhh
 	#sudo service lightdm restart
 
 picom:
@@ -52,11 +52,11 @@ alacritty: rust
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
 	$(RM) $(BASE)/sources/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
-	$(CDSOURCES)/Alacritty && cargo run --manifest-path Cargo.toml
+	. ~/.cargo/env && $(CDSOURCES)/Alacritty && cargo run --manifest-path Cargo.toml
 	sudo mkdir -p /usr/local/share/man/man1
 	$(CDSOURCES)/Alacritty && gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 	$(CDSOURCES)/Alacritty && sudo cp target/debug/alacritty /usr/local/bin
-	gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
+	#gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 
 nerd-fonts:
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/ryanoasis/nerd-fonts
@@ -199,4 +199,12 @@ jetbrains:
 virtualization:
 	$(PKGINSTALL) virtualbox virtualbox-ext-pack 
 
-	
+#########################################
+#
+#			  User
+#
+#########################################
+
+user:
+	mkdir -p ~/Documents
+	cp -rf $(BASE)/wallpapers ~/Documents/
