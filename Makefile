@@ -50,7 +50,7 @@ picom:
 
 alacritty: rust
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
-	$(RM) $(BASE)/Alacritty
+	$(RM) $(BASE)/sources/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
 	$(CDSOURCES)/Alacritty && cargo run --manifest-path Cargo.toml
 	sudo mkdir -p /usr/local/share/man/man1
@@ -160,7 +160,7 @@ python:
 
 rust:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	source ~/.cargo/env
+	. ~/.cargo/env
 
 #########################################
 #
@@ -170,7 +170,7 @@ rust:
 
 neovim: all-languages
 	$(PKGINSTALL) ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-	$(RM) $(BASE)/neovim
+	$(RM) $(BASE)/sources/neovim
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/neovim/neovim.git 
 	$(CDSOURCES)/neovim/ && git checkout stable && make CMAKE_BUILD_TYPE=Release && make install
 	$(NPMINSTALL) typescript 
