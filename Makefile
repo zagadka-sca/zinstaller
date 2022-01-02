@@ -1,7 +1,7 @@
 BASE = $(PWD)
 LN = ln -vsf
 LNDIR = ln -vs
-PKGINSTALL = sudo apt-get install 
+PKGINSTALL = sudo apt-get -y install 
 NPMINSTALL = sudo npm i -g
 SNAPINSTALL = sudo snap install
 RM = rm -rf
@@ -14,7 +14,7 @@ clean:
 	$(RM) $(BASE)/node_modules
 	$(RM) $(BASE)/sources/*
 
-stage-one: base zsh xserver xserver-base 
+stage-one: base zsh xserver xserver-base picom nerd-fonts xmonad neovim users
 
 #########################################
 #
@@ -172,7 +172,7 @@ neovim: all-languages
 	$(PKGINSTALL) ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
 	$(RM) $(BASE)/sources/neovim
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/neovim/neovim.git 
-	$(CDSOURCES)/neovim/ && git checkout stable && make CMAKE_BUILD_TYPE=Release && make install
+	$(CDSOURCES)/neovim/ && git checkout stable && sudo make CMAKE_BUILD_TYPE=Release && sudo make install
 	$(NPMINSTALL) typescript 
 	$(NPMINSTALL) typescript-language-server
 	$(NPMINSTALL)	diagnostic-languageserver
