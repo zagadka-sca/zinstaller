@@ -40,7 +40,7 @@ xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 xserver-base:
-	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogenjjjhh
+	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogen
 	#sudo service lightdm restart
 
 picom:
