@@ -63,11 +63,12 @@ nerd-fonts:
 	$(CDSOURCES)/nerd-fonts && ./install.sh
 
 xmonad: rust
+	$(RM) ~/.xmonad
+	$(RM) ~/.config/xmobar
 	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
 	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	$(LN) $(BASE)/dotfiles/xmonad.desktop /usr/share/lightdm/lightdm.conf.d/xmonad.desktop
-
 
 
 #########################################
