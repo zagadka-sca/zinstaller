@@ -26,7 +26,7 @@ base:
 	mkdir -p ~/.config
 	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free.list"
 	sudo apt-get update && sudo apt-get upgrade
-	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux
+	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snap
 
 #########################################
 #
@@ -93,11 +93,6 @@ snaps:
 	$(SNAPINSTALL) enpass
 	$(SNAPINSTALL) spotify --classic
 	$(SNAPINSTALL) postman --classic
-
-apache:
-	a2enmod rewrite
-	a2enmod ssl
-	a2enmod vhost_alias
 
 #########################################
 #
