@@ -37,7 +37,7 @@ base:
 xserver:
 	$(PKGINSTALL) xorg xserver-xorg-video-all xserver-xorg-input-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers 
 	sudo Xorg -configure
-	sudo cp -f ~/xorg.conf.new /etc/X11/xorg.conf
+	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 xserver-base:
 	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogenjjjhh
