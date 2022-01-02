@@ -16,6 +16,8 @@ clean:
 
 stage-one: base zsh xserver xserver-base picom nerd-fonts xmonad neovim users
 
+stage-two: alacritty snaps
+
 #########################################
 #
 #			System	
@@ -26,7 +28,7 @@ base:
 	mkdir -p ~/.config
 	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free.list"
 	sudo apt-get update && sudo apt-get upgrade
-	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snap
+	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snapd lm-sensors inxi
 
 #########################################
 #
