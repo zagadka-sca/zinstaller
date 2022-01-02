@@ -14,7 +14,7 @@ clean:
 	$(RM) $(BASE)/node_modules
 	$(RM) $(BASE)/sources/*
 
-stage-one: base zsh xserver xserver-base picom nerd-fonts xmonad neovim users
+stage-one: base zsh xserver xserver-base picom nerd-fonts xmonad neovim user
 
 stage-two: alacritty snaps
 
@@ -88,6 +88,7 @@ pkgs:
 	$(PKGINSTALL) vlc tmux nmon libsasl2-dev gimp xpad  flameshot rtorrent  volumeicon-alsa luajit 
 
 snaps:
+	$(SNAPINSTALL) core
 	$(SNAPINSTALL) starship
 	$(SNAPINSTALL) chromium
 	$(SNAPINSTALL) slack --classic

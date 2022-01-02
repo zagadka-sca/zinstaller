@@ -1,9 +1,15 @@
 #!/bin/sh
 export ZDOTDIR=$HOME/.config/zsh
+
 HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory
+setopt EXTENDED_HISTORY
 
-
-# setopt appendhistory
+# add snap to path 
+path+=('/snap/bin')
+export path
 
 ## some useful options (man zshoptions)
 #setopt autocd extendedglob nomatch menucomplete
