@@ -73,6 +73,10 @@ xmonad: rust
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
+arch-fonts:
+	$(ARCH_PKGINSTALL) ttc-iosevka ttf-nerd-fonts-symbols-mono
+
+
 arch-xserver:
 	$(ARCH_PKGINSTALL) xorg xf86-video-ati xorg-fonts xf86-input-libinput xterm
 	sudo Xorg -configure
@@ -254,7 +258,6 @@ user:
 	cp -rf $(BASE)/wallpapers ~/Documents/
 	rm -rf $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
-	$(LN) $(BASE)/dotfiles/fonts $(HOME)/.fonts
 	$(LN) $(BASE)/dotfiles/config/alacritty $(HOME)/.config/alacritty
 
 		
