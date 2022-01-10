@@ -2,6 +2,7 @@ BASE = $(PWD)
 LN = ln -vsf
 LNDIR = ln -vs
 PKGINSTALL = sudo apt-get -y install 
+ARCH_PKGINSTALL = sudo pacman -Sy 
 NPMINSTALL = sudo npm i -g
 SNAPINSTALL = sudo snap install
 RM = rm -rf
@@ -72,6 +73,22 @@ xmonad: rust
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
+arch-xserver:
+	$(ARCH_PKGINSTALL) xorg xf86-video-ati xorg-fonts xf86-input-libinput xterm
+	sudo Xorg -configure
+	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
+
+arch-xbase:
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter picom nitrogen alacritty volumeicon nm-applet blueman-applet trayer lxsession xautolock gnome-screensaver
+	sudo systemctl enable lightdm
+
+arch-xmonad: 
+	$(RM) ~/.xmonad
+	$(RM) ~/.config/xmobar
+	$(ARCH_PKGINSTALL) xmonad-contrib xmonad-utils xmonad xmobar dmenu trayer
+	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
+	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
+	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
 #########################################
 #
@@ -112,6 +129,13 @@ zsh: lsd
 lsd:
 	$(CDPACKAGES) && sudo dpkg -i lsd-musl_0.20.1_amd64.deb 
 
+
+arch-zsh:
+	$(ARCH_PKGINSTALL) lsd zsh zsh-theme-powerlevel10k
+	$(LN) $(BASE)/dotfiles/config/zsh $(HOME)/.config/zsh
+	$(LN) $(BASE)/dotfiles/zshrc $(HOME)/.zshrc
+	sudo chsh -s /usr/bin/zsh scalaci
+
 #########################################
 #
 #			Server	
@@ -142,10 +166,13 @@ g810:
 #########################################
 
 all-languages: node angular python rust 
+arch-all-languages: arch-node angular arch-python rust 
 
 node:
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt update && sudo apt-get install -y nodejs
+
+
 
 angular:
 	sudo npm install -g @angular/cli@7
@@ -159,6 +186,12 @@ python:
 rust:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	. ~/.cargo/env
+
+arch-node:
+	$(ARCH_PKGINSTALL) nodejs npm 
+
+arch-python:
+	$(ARCH_PKGINSTALL) python-virtualenvwrapper ipython python-psutil
 
 #########################################
 #
@@ -180,6 +213,19 @@ neovim: all-languages
 	$(NPMINSTALL) bash-language-server 
 	$(NPMINSTALL) yaml-language-server
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
+
+arch-neovim: arch-all-languages
+	$(ARCH_PKGINSTALL) neovim 
+	$(NPMINSTALL) typescript 
+	$(NPMINSTALL) typescript-language-server
+	$(NPMINSTALL) diagnostic-languageserver
+	$(NPMINSTALL) eslint_d 
+	$(NPMINSTALL) pyright
+	$(NPMINSTALL) intelephense 
+	$(NPMINSTALL) bash-language-server 
+	$(NPMINSTALL) yaml-language-server
+	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
+
 
 jetbrains:
 	$(SNAPINSTALL) webstorm --classic
@@ -208,4 +254,5 @@ user:
 	cp -rf $(BASE)/wallpapers ~/Documents/
 	rm -rf $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
+	$(LN) $(BASE)/dotfiles/fonts $(HOME)/.fonts
 		

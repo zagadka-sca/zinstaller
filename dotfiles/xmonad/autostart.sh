@@ -1,8 +1,7 @@
 #!/bin/sh
 
 $HOME/.local/bin/screen
-# lxsession 
-# stalonetray &
+lxsession 
 nitrogen --restore &
 picom &
 nm-applet &
