@@ -255,4 +255,6 @@ user:
 	rm -rf $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/fonts $(HOME)/.fonts
+	$(LN) $(BASE)/dotfiles/config/alacritty $(HOME)/.config/alacritty
+
 		

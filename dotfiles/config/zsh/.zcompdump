@@ -1,4 +1,4 @@
-#files: 971	version: 5.8
+#files: 969	version: 5.8
 
 _comps=(
 '-' '_precommand'
@@ -213,7 +213,6 @@ _comps=(
 'composite' '_imagemagick'
 'compress' '_compress'
 'conch' '_twisted'
-'conda' '_conda'
 '-condition-' '_condition'
 'config.status' '_configure'
 'configure' '_configure'
@@ -824,7 +823,6 @@ _comps=(
 'makeinfo' '_texinfo'
 'make-kpkg' '_make-kpkg'
 'makepkg' '_pkgtool'
-'mamba' '_conda'
 'man' '_man'
 'manage.py' '_django'
 'manila' '_openstack'
@@ -2046,7 +2044,7 @@ autoload -Uz _bootctl _busctl _curl _hostnamectl _j \
             _zcalc_line _zcompile _zed _zftp _zle \
             _zmodload _zmv _zparseopts _zpty _zsh-mime-handler \
             _zsocket _zstyle _ztodo _hwinfo _osc \
-            _SUSEconfig _yast _zypper _conda _conda
+            _SUSEconfig _yast _zypper
 autoload -Uz +X _call_program
 
 typeset -gUa _comp_assocs
