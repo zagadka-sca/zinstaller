@@ -15,9 +15,11 @@ clean:
 	$(RM) $(BASE)/node_modules
 	$(RM) $(BASE)/sources/*
 
-stage-one: base zsh xserver xserver-base picom nerd-fonts xmonad neovim user
+debian-install: debian_base debian-zsh debian-xserver debian-xserver-base debian-picom debian-nerd-fonts debian-xmonad debian-neovim user
 
-stage-two: alacritty snaps
+debian-stage-two: alacritty snaps
+
+arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-zsh arch-all-languages arch-neovim
 
 #########################################
 #
@@ -25,11 +27,14 @@ stage-two: alacritty snaps
 #
 #########################################
 
-base:
+debian-base:
 	mkdir -p ~/.config
 	sudo bash -c "echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list.d/non-free.list"
 	sudo apt-get update && sudo apt-get upgrade
 	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snapd lm-sensors inxi
+
+arch-base:
+	mkdir -p ~/.config
 
 #########################################
 #
@@ -37,21 +42,21 @@ base:
 #
 #########################################
 
-xserver:
+debian-xserver:
 	$(PKGINSTALL) xorg xserver-xorg-video-all xserver-xorg-input-all xinit firmware-linux-nonfree firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers 
 	sudo Xorg -configure
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
-xserver-base:
+debian-xserver-base:
 	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogen
 	#sudo service lightdm restart
 
-picom:
+debian-picom:
 	$(PKGINSTALL) libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev meson
 	$(CDSOURCES) && $(GITCLONE) https://github.com/ibhagwan/picom.git
 	$(CDSOURCES)/picom && meson --buildtype=release . build && ninja -C build &&	sudo ninja -C build install
 
-alacritty: 
+debian-alacritty: 
 	$(PKGINSTALL) cmake libfreetype6-dev libfontconfig1-dev xclip
 	$(RM) $(BASE)/sources/Alacritty
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/jwilm/Alacritty
@@ -61,11 +66,11 @@ alacritty:
 	$(CDSOURCES)/Alacritty && sudo cp target/debug/alacritty /usr/local/bin
 	#gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 
-nerd-fonts:
+debian-nerd-fonts:
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/ryanoasis/nerd-fonts
 	$(CDSOURCES)/nerd-fonts && ./install.sh
 
-xmonad: rust
+debian-xmonad: rust
 	$(RM) ~/.xmonad
 	$(RM) ~/.config/xmobar
 	$(PKGINSTALL)	xmonad xmobar libghc-xmonad-contrib-dev libghc-xmonad-extras-dev dmenu trayer
@@ -75,7 +80,6 @@ xmonad: rust
 
 arch-fonts:
 	$(ARCH_PKGINSTALL) ttc-iosevka ttf-nerd-fonts-symbols-mono
-
 
 arch-xserver:
 	$(ARCH_PKGINSTALL) xorg xf86-video-ati xorg-fonts xf86-input-libinput xterm
@@ -100,7 +104,7 @@ arch-xmonad:
 #
 #########################################
 
-pkgs:
+debian-pkgs:
 	# System Packages
 	$(PKGINSTALL) libfreetype-dev xcb libxcb1-dev libxcb-render0-dev libxcb-shape0-dev  libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev autojump  bluetooth rfkill blueman bluez bluez-tools pulseaudio-module-bluetooth tmux xterm dmenu xscreensaver xscreensaver-data-extra xscreensaver-gl-extra nmon libsasl2-dev libssl-dev gimp xpad xautolock flameshot curl git gnome-tweak-tool rtorrent pgcli postgresql libxkbcommon-dev mesa-utils stalonetray lxappearance picom trayer volumeicon-alsa
 	# System tools
@@ -108,7 +112,7 @@ pkgs:
 	# X Programs
 	$(PKGINSTALL) vlc tmux nmon libsasl2-dev gimp xpad  flameshot rtorrent  volumeicon-alsa luajit 
 
-snaps:
+debian-snaps:
 	$(SNAPINSTALL) core
 	$(SNAPINSTALL) starship
 	$(SNAPINSTALL) chromium
@@ -124,15 +128,14 @@ snaps:
 #
 #########################################
 
-zsh: lsd
+debian-zsh: debian-lsd
 	$(PKGINSTALL) zsh zsh-theme-powerlevel9k
 	$(LN) $(BASE)/dotfiles/config/zsh $(HOME)/.config/zsh
 	$(LN) $(BASE)/dotfiles/zshrc $(HOME)/.zshrc
 	sudo chsh -s /usr/bin/zsh scalaci
 	
-lsd:
+debian-lsd:
 	$(CDPACKAGES) && sudo dpkg -i lsd-musl_0.20.1_amd64.deb 
-
 
 arch-zsh:
 	$(ARCH_PKGINSTALL) lsd zsh zsh-theme-powerlevel10k
@@ -169,21 +172,19 @@ g810:
 #
 #########################################
 
-all-languages: node angular python rust 
+debian-all-languages: debian-node angular debian-python rust 
 arch-all-languages: arch-node angular arch-python rust 
 
-node:
+debian-node:
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt update && sudo apt-get install -y nodejs
-
-
 
 angular:
 	sudo npm install -g @angular/cli@7
 	sudo npm install --global sass
 	sudo npm install --global less
 
-python:
+debian-python:
 	$(PKGINSTALL) python3 python3-pip python3-venv 
 	pip3 install ipython psutil
 
@@ -203,7 +204,7 @@ arch-python:
 #
 #########################################
 
-neovim: all-languages
+debian-neovim: debian-all-languages
 	$(PKGINSTALL) ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
 	$(RM) $(BASE)/sources/neovim
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/neovim/neovim.git 
@@ -230,13 +231,11 @@ arch-neovim: arch-all-languages
 	$(NPMINSTALL) yaml-language-server
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
 
-
-jetbrains:
+debian-jetbrains:
 	$(SNAPINSTALL) webstorm --classic
 	$(SNAPINSTALL) pycharm-professional --classic
 	$(SNAPINSTALL) phpstorm --classic
 	$(SNAPINSTALL) datagrip --classic
-
 
 #########################################
 #
@@ -244,7 +243,7 @@ jetbrains:
 #
 #########################################
 
-virtualization:
+debian-virtualization:
 	$(PKGINSTALL) virtualbox virtualbox-ext-pack 
 
 #########################################
