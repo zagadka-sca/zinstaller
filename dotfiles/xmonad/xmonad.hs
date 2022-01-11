@@ -473,7 +473,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| threeCol
                                  ||| threeRow
 
-myWorkspaces = [" dev-1 ", " dev-2 ", " dev-3 ", " dev-4 ", " www-5 ", " www-6 ", " sys-7 ", " sys-8 ", " com-9 "]
+myWorkspaces = ["dev-1", "dev-2", "dev-3", "dev-4", "www-5", "www-6", "sys-7", "sys-8", "com-9"]
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 
 xmobarEscape :: String -> String
@@ -485,25 +485,25 @@ xmobarEscape = concatMap doubleLts
 myClickableWorkspaces :: [String]
 myClickableWorkspaces = clickable . (map xmobarEscape)
                -- $ [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
-               $ [" dev-1 ", " dev-2 ", " dev-3 ", " dev-4 ", " www-5 ", " www-6 ", " sys-7 ", " sys-8 ", " com-9 "]
+               $ ["dev-1", "dev-2", "dev-3", "dev-4", "www-5", "www-6", "sys-7", "sys-8", "com-9"]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
                       (i,ws) <- zip [1..9] l,
                       let n = i ]
 
-myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
-myManageHook = composeAll
+-- myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
+-- myManageHook = composeAll
      -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
      -- I'm doing it this way because otherwise I would have to write out the full
      -- name of my workspaces, and the names would very long if using clickable workspaces.
-     [ title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
-     , className =? "mpv"     --> doShift ( myWorkspaces !! 7 )
-     , className =? "Gimp"    --> doShift ( myWorkspaces !! 8 )
-     , className =? "Gimp"    --> doFloat
-     , title =? "Oracle VM VirtualBox Manager"     --> doFloat
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
-     , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
-     ] <+> namedScratchpadManageHook myScratchPads
+     -- [ title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
+     -- , className =? "mpv"     --> doShift ( myWorkspaces !! 7 )
+     -- , className =? "Gimp"    --> doShift ( myWorkspaces !! 8 )
+     -- , className =? "Gimp"    --> doFloat
+     -- , title =? "Oracle VM VirtualBox Manager"     --> doFloat
+     -- , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
+     -- , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+     -- ] <+> namedScratchpadManageHook myScratchPads
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount

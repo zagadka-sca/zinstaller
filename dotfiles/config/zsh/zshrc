@@ -8,7 +8,8 @@ setopt appendhistory
 setopt EXTENDED_HISTORY
 
 # add snap to path 
-path+=('/snap/bin')
+#path+=('/snap/bin')
+path+=("$HOME/.scripts")
 export path
 
 ## some useful options (man zshoptions)

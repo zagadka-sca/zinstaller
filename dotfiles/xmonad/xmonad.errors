@@ -1,0 +1,7 @@
+
+xmonad.hs:633:61: error:
+    • Variable not in scope: myManageHook :: Query (Endo WindowSet)
+    • Perhaps you meant ‘manageHook’ (imported from XMonad)
+    |
+633 |         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
+    |                                                             ^^^^^^^^^^^^
