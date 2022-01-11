@@ -43,7 +43,7 @@ xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 xserver-base:
-	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogen
+	$(PKGINSTALL)	lightdm lxappearance xscreensaver xscreensaver-data-extra xscreensaver-gl-extra xautolock vim-gtk3 xterm nitrogen 
 	#sudo service lightdm restart
 
 picom:
@@ -83,7 +83,7 @@ arch-xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 arch-xbase:
-	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter picom nitrogen alacritty volumeicon nm-applet blueman-applet trayer lxsession xautolock gnome-screensaver
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon volumeicon-alsa 
 	sudo systemctl enable lightdm
 
 arch-xmonad: 
@@ -158,6 +158,11 @@ apache:
 #########################################
 
 all-drivers: g810
+
+arch-audio:
+	$(ARCH_PKGINSTALL) alsa-utils asoundconf
+	asoundconf set-default-card Generic
+
 
 g810:
 	$(CDSOURCES) &&	$(GITCLONE) https://github.com/MatMoul/g810-led.git
@@ -259,5 +264,6 @@ user:
 	rm -rf $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/alacritty $(HOME)/.config/alacritty
+	$(LN) $(BASE)/scripts $(HOME)/.scripts
 
 		
