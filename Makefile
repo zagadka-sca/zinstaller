@@ -39,6 +39,9 @@ arch-base:
 	$(ARCH_PKGINSTALL) pass 
 	mkdir -p ~/.config
 	mkdir -p ~/.local
+	$(CDSOURCES) &&	$(GITCLONE) https://aur.archlinux.org/yay-git.git 
+	$(CDSOURCES)/yay-git && makepkg -si
+
 
 #########################################
 #
