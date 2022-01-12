@@ -19,7 +19,8 @@ debian-install: debian_base debian-zsh debian-xserver debian-xserver-base debian
 
 debian-stage-two: alacritty snaps
 
-arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-zsh arch-all-languages arch-neovim
+arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-zsh arch-all-languages arch-neovim arch-audio
+	
 
 #########################################
 #
@@ -87,7 +88,7 @@ arch-xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 arch-xbase:
-	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon volumeicon-alsa 
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon volumeicon-alsa lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme
 	sudo systemctl enable lightdm
 
 arch-xmonad: 
@@ -163,8 +164,10 @@ apache:
 all-drivers: g810
 
 arch-audio:
-	$(ARCH_PKGINSTALL) alsa-utils asoundconf
+	$(RM) ~/.config/volumeicon
+	$(ARCH_PKGINSTALL) alsa-utils asoundconf alsa-tools alsa-plugins alsa-firmware
 	asoundconf set-default-card Generic
+	$(LN) $(BASE)/dotfiles/config/volumeicon $(HOME)/.config/volumeicon
 
 
 g810:
