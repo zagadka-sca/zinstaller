@@ -176,7 +176,7 @@ all-drivers: g810
 arch-audio:
 	$(RM) ~/.config/volumeicon
 	$(ARCH_PKGINSTALL) alsa-utils asoundconf alsa-tools alsa-plugins alsa-firmware
-	asoundconf set-default-card Generic
+	#asoundconf set-default-card Generic
 	$(LN) $(BASE)/dotfiles/config/volumeicon $(HOME)/.config/volumeicon
 
 
