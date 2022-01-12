@@ -36,7 +36,7 @@ debian-base:
 	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snapd lm-sensors inxi
 
 arch-base:
-	$(ARCH_PKGINSTALL) pass 
+	$(ARCH_PKGINSTALL) pass rsync
 	mkdir -p ~/.config
 	mkdir -p ~/.local
 	$(CDSOURCES) &&	$(GITCLONE) https://aur.archlinux.org/yay-git.git 
