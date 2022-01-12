@@ -52,5 +52,5 @@ Config { font    = "xft:Ubuntu:weight=medium:pixelsize=18:antialias=true:hinting
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#666666> | </fc><fc=#ffffff> %cpu% </fc><fc=#666666> |</fc><fc=#ffffff> %memory% </fc><fc=#666666> |</fc> <fc=#ffffff> %disku% </fc><fc=#666666> |</fc> <fc=#ffffff> %wlp0s20f3% </fc><fc=#666666> |</fc> <fc=#ffffff> %battery%  </fc> <fc=#666666> |</fc> <fc=#ffffff> %date%                                      </fc>"
+       , template = "%StdinReader% }{ <fc=#666666>|</fc><fc=#ffffff> %cpu% </fc><fc=#666666>|</fc><fc=#ffffff> %memory% </fc><fc=#666666>|</fc><fc=#ffffff> %disku% </fc><fc=#666666>|</fc><fc=#ffffff> %wlp0s20f3% </fc><fc=#666666>|</fc><fc=#ffffff> %battery% </fc><fc=#666666>|</fc><fc=#ffffff> %date%             </fc>"
        }

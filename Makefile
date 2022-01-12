@@ -5,6 +5,7 @@ PKGINSTALL = sudo apt-get -y install
 ARCH_PKGINSTALL = sudo pacman -Sy 
 NPMINSTALL = sudo npm i -g
 SNAPINSTALL = sudo snap install
+YAYINSTALL = yay -S 
 RM = rm -rf
 CDSOURCES = cd $(BASE)/sources
 CDPACKAGES = cd $(BASE)/packages
@@ -35,7 +36,9 @@ debian-base:
 	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snapd lm-sensors inxi
 
 arch-base:
+	$(ARCH_PKGINSTALL) pass yay
 	mkdir -p ~/.config
+	mkdir -p ~/.local
 
 #########################################
 #
@@ -122,6 +125,10 @@ debian-snaps:
 	$(SNAPINSTALL) enpass
 	$(SNAPINSTALL) spotify --classic
 	$(SNAPINSTALL) postman --classic
+
+arch-yay:
+	$(YAYINSTALL) slack-desktop 
+	$(YAYINSTALL) brave-bin 
 
 #########################################
 #
