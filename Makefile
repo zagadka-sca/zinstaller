@@ -91,7 +91,7 @@ arch-xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 arch-xbase:
-	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme
 	sudo systemctl enable lightdm
 
 arch-xmonad: 
