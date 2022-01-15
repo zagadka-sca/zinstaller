@@ -36,7 +36,7 @@ debian-base:
 	$(PKGINSTALL) vim git curl dnsmasq net-tools locate software-properties-common cmake libtool m4 pkg-config automake autotools-dev autoconf htop nmon bpytop tmux snapd lm-sensors inxi
 
 arch-base:
-	$(ARCH_PKGINSTALL) pass 
+	$(ARCH_PKGINSTALL) pass rsync
 	mkdir -p ~/.config
 	mkdir -p ~/.local
 	$(CDSOURCES) &&	$(GITCLONE) https://aur.archlinux.org/yay-git.git 
@@ -105,6 +105,11 @@ arch-xmonad:
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
+arch-qtile:
+	$(RM) ~/.config/qtile
+	$(ARCH_PKGINSTALL) qtile 
+	$(LN) $(BASE)/dotfiles/config/qtile $(HOME)/.config/qtile
+
 #########################################
 #
 #			X Apps	
@@ -132,6 +137,7 @@ debian-snaps:
 arch-yay:
 	$(YAYINSTALL) slack-desktop 
 	$(YAYINSTALL) brave-bin 
+	$(YAYINSTALL) lightdm-webkit-theme-aether 
 
 #########################################
 #
@@ -176,7 +182,7 @@ all-drivers: g810
 arch-audio:
 	$(RM) ~/.config/volumeicon
 	$(ARCH_PKGINSTALL) alsa-utils asoundconf alsa-tools alsa-plugins alsa-firmware
-	asoundconf set-default-card Generic
+	#asoundconf set-default-card Generic
 	$(LN) $(BASE)/dotfiles/config/volumeicon $(HOME)/.config/volumeicon
 
 
@@ -276,6 +282,8 @@ user:
 	rm -rf $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/alacritty $(HOME)/.config/alacritty
+	$(LN) $(BASE)/dotfiles/config/picom $(HOME)/.config/picom
+	$(LN) $(BASE)/dotfiles/config/rofi $(HOME)/.config/rofi
 	$(LN) $(BASE)/scripts $(HOME)/.scripts
 
 		
