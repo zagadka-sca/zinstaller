@@ -105,6 +105,11 @@ arch-xmonad:
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
+arch-qtile:
+	$(RM) ~/.config/qtile
+	$(ARCH_PKGINSTALL) qtile 
+	$(LN) $(BASE)/dotfiles/config/qtile $(HOME)/.config/qtile
+
 #########################################
 #
 #			X Apps	
@@ -132,6 +137,7 @@ debian-snaps:
 arch-yay:
 	$(YAYINSTALL) slack-desktop 
 	$(YAYINSTALL) brave-bin 
+	$(YAYINSTALL) lightdm-webkit-theme-aether 
 
 #########################################
 #
@@ -276,6 +282,8 @@ user:
 	rm -rf $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/alacritty $(HOME)/.config/alacritty
+	$(LN) $(BASE)/dotfiles/config/picom $(HOME)/.config/picom
+	$(LN) $(BASE)/dotfiles/config/rofi $(HOME)/.config/rofi
 	$(LN) $(BASE)/scripts $(HOME)/.scripts
 
 		
