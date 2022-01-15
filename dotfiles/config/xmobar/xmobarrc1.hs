@@ -2,9 +2,9 @@
 -- install xmobar with these flags: --flags="with_alsa" --flags="with_mpd" --flags="with_xft"  OR --flags="all_extensions"
 -- you can find weather location codes here: http://weather.noaa.gov/index.html
 
-Config { font    = "xft:Ubuntu:weight=medium:pixelsize=18:antialias=true:hinting=true"
-       , additionalFonts = [ "xft:Mononoki Nerd Font:pixelsize=18:antialias=true:hinting=true"
-                           , "xft:FontAwesome:pixelsize=18"
+Config { font    = "xft:Ubuntu:weight=medium:pixelsize=12:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Mononoki Nerd Font:pixelsize=12:antialias=true:hinting=true"
+                           , "xft:FontAwesome:pixelsize=12"
                            ]
        , bgColor = "#282c34"
        , fgColor = "#ff6c6b"
@@ -52,5 +52,5 @@ Config { font    = "xft:Ubuntu:weight=medium:pixelsize=18:antialias=true:hinting
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#666666>|</fc><fc=#ffffff> %cpu% </fc><fc=#666666>|</fc><fc=#ffffff> %memory% </fc><fc=#666666>|</fc><fc=#ffffff> %disku% </fc><fc=#666666>|</fc><fc=#ffffff> %wlp0s20f3% </fc><fc=#666666>|</fc><fc=#ffffff> %battery% </fc><fc=#666666>|</fc><fc=#ffffff> %date%             </fc>"
+       , template = "%StdinReader% }{ <fc=#666666>|</fc><fc=#ffffff> %cpu% </fc><fc=#666666>|</fc><fc=#ffffff> %memory% </fc><fc=#666666>|</fc><fc=#ffffff> %disku% </fc><fc=#666666>|</fc><fc=#ffffff> %wlp0s20f3% </fc><fc=#666666>|</fc><fc=#ffffff> %battery% </fc><fc=#666666>|</fc><fc=#ffffff> %date%                                     </fc>"
        }

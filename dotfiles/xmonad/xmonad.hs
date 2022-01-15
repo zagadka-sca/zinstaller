@@ -524,7 +524,8 @@ myKeys home =
     -- Useful programs to have a keybinding for launch
         , ("M-<Return>", spawn (myTerminal))
         , ("M-b", spawn (myBrowser))
-        , ("M-S-l", spawn "xautolock -locknow")
+        --, ("M-S-l", spawn "xautolock -locknow")
+        , ("M-S-l", spawn "slock")
 
     -- Kill windows
         , ("M-S-c", kill1)     -- Kill the currently focused client
@@ -623,20 +624,24 @@ main = do
 
     home <- getHomeDirectory
     -- Launching three instances of xmobar on their monitors.
-    xmproc1 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc1.hs"
+    xmproc1 <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/xmobarrc1.hs"
+    -- xmproc2 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc1.hs"
+    -- xmproc3 <- spawnPipe "xmobar -x 2 $HOME/.config/xmobar/xmobarrc1.hs"
+    -- xmproc4 <- spawnPipe "xmobar -x 3 $HOME/.config/xmobar/xmobarrc1.hs"
     -- xmproc1 <- spawnPipe "xmobar -x 3 $HOME/.config/xmobar/xmobarrc1.hs"
     -- xmproc2 <- spawnPipe "xmobar -x 2 $HOME/.config/xmobar/xmobarrc1.hs"
     -- xmproc3 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc1.hs"
     -- xmproc2 <- spawnPipe "xmobar -x 2 $HOME/.config/xmobar/xmobarrc1"
     -- the xmonad, ya know...what the WM is named after!
     xmonad $ ewmh def
-        { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
+        { 
+        -- manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
         -- Run xmonad commands from command line with "xmonadctl command". Commands include:
         -- shrink, expand, next-layout, default-layout, restart-wm, xterm, kill, refresh, run,
         -- focus-up, focus-down, swap-up, swap-down, swap-master, sink, quit-wm. You can run
         -- "xmonadctl 0" to generate full list of commands written to ~/.xsession-errors.
         -- To compile xmonadctl: ghc -dynamic xmonadctl.hs
-        , handleEventHook    = serverModeEventHookCmd
+        handleEventHook    = serverModeEventHookCmd
                                <+> serverModeEventHook
                                <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
                                <+> docksEventHook
