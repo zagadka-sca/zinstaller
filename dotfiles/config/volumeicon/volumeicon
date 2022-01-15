@@ -1,5 +1,5 @@
 [Alsa]
-card=HD-Audio Generic
+card=HDA Intel PCH
 channel=Master
 
 [Notification]
@@ -9,7 +9,7 @@ notification_type=0
 [StatusIcon]
 stepsize=5
 onclick=alacritty -e 'alsamixer'
-theme=Blue Bar
+theme=Default
 use_panel_specific_icons=false
 lmb_slider=false
 mmb_mute=false
