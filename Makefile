@@ -137,6 +137,8 @@ debian-snaps:
 arch-yay:
 	$(YAYINSTALL) slack-desktop 
 	$(YAYINSTALL) brave-bin 
+	$(YAYINSTALL) onlyoffice-bin 
+	$(YAYINSTALL) postman-bin 
 	$(YAYINSTALL) lightdm-webkit-theme-aether 
 
 #########################################
