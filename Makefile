@@ -281,8 +281,8 @@ debian-virtualization:
 user:
 	mkdir -p ~/Documents
 	cp -rf $(BASE)/wallpapers ~/Documents/
-	rm -rf $(HOME)/.config/nitrogen
-	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
+#	rm -rf $(HOME)/.config/nitrogen
+#	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
 	$(LN) $(BASE)/dotfiles/config/alacritty $(HOME)/.config/alacritty
 	$(LN) $(BASE)/dotfiles/config/picom $(HOME)/.config/picom
 	$(LN) $(BASE)/dotfiles/config/rofi $(HOME)/.config/rofi

@@ -38,7 +38,10 @@ from libqtile.log_utils import logger
 
 
 #Font Size
-fs = 20
+fs = 12
+font_size = 10
+my_font = "Isevka"
+bar_spacer = font_size + 8
 mod = "mod4"                                     # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"                             # My terminal of choice
 terminal = guess_terminal()
@@ -174,7 +177,7 @@ colors = [["#282c34", "#282c34"], # panel background
           ["#ffffff", "#ffffff"]] # window name
 
 widget_defaults = dict(
-    font="Iosevka",
+    font = my_font,
     fontsize = fs,
     padding = 10,
     background=colors[2]
@@ -199,7 +202,7 @@ def init_widgets_list():
     widgets_list = [
         widget.Sep(linewidth = 0,padding = 6,foreground = colors[2],background = colors[4]),
         widget.GroupBox(
-                 font = "Isevka",
+                 font = my_font,
                  fontsize = fs,
                  margin_y = 3,
                  margin_x = 0,
@@ -218,22 +221,22 @@ def init_widgets_list():
                  foreground = colors[2],
                  background = colors[4]
                  ),
-        widget.Prompt(font = "Isevka",padding = 10,foreground = colors[3],background = colors[4]),
+        widget.Prompt(font = my_font, fontsize = fs, padding = 10,foreground = colors[3],background = colors[4]),
         widget.Sep(linewidth = 0,padding = 40,foreground = colors[2],background = colors[4]),
-        widget.WindowName(foreground = colors[6],background = colors[4],padding = 0),
+        widget.WindowName(font = my_font, fontsize = fs, foreground = colors[6],background = colors[4],padding = 0),
         widget.TextBox(text = 'CPU:',background = colors[4],foreground = colors[2],padding = 0),
-        widget.CPU(background = colors[4],foreground = colors[2],padding = 5,format= "{load_percent}%"),
+        widget.CPU(font = my_font, fontsize = fs, background = colors[4],foreground = colors[2],padding = 5,format= "{load_percent}%"),
         wpipe(),
-        widget.TextBox(text = 'MEM:',background = colors[5],foreground = colors[2],padding = 0),
-        widget.Memory(format = '{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}', background = colors[4],foreground = colors[2]),
-        wpipe(),
-        widget.TextBox(text = "VOL:",foreground = colors[2],background = colors[5],padding = 0),
-        widget.Volume(foreground = colors[2],background = colors[5],padding = 5),
+        widget.TextBox(font = my_font, fontsize = fs, text = 'MEM:',background = colors[5],foreground = colors[2],padding = 0),
+        widget.Memory(font = my_font, fontsize = fs, format = '{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}', background = colors[4],foreground = colors[2]),
+        #wpipe(),
+        #widget.TextBox(font = my_font, fontsize = fs, text = "VOL:",foreground = colors[2],background = colors[5],padding = 0),
+        #widget.Volume(foreground = colors[2],background = colors[5],padding = 5),
         wpipe(),
         widget.CurrentLayoutIcon(foreground = colors[0],background = colors[4],padding = 0,scale = 0.7),
         widget.CurrentLayout(foreground = colors[2],background = colors[4],padding = 5),
         wpipe(),
-        widget.Clock(foreground = colors[2],background = colors[5],format = "%A, %B %d  [ %H:%M ]"),
+        widget.Clock(font = my_font, fontsize = fs, foreground = colors[2],background = colors[5],format = "%A, %B %d  [ %H:%M ]"),
         wpipe(),
     ]
     return widgets_list
@@ -252,7 +255,11 @@ def init_widgets_screen2():
     return widgets_screen2
 
 def init_screens():
-    return [Screen(top=bar.Bar(init_widgets_screen1(), 32))]
+    return [
+        Screen(top=bar.Bar(init_widgets_screen1(), bar_spacer)),
+        Screen(top=bar.Bar(init_widgets_screen1(), bar_spacer)),
+        Screen(top=bar.Bar(init_widgets_screen1(), bar_spacer)),
+    ]
 
 screens = init_screens()
 
