@@ -45,6 +45,14 @@ bar_spacer = font_size + 8
 mod = "mod4"                                     # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"                             # My terminal of choice
 terminal = guess_terminal()
+
+# Apps
+app_lock = "slock"
+app_terminal = "alacritty"
+app_file = "pcmanfm"
+app_browser = "brave"
+app_password = "enpass"
+
 keys = [
 
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show drun -display-drun \"Run: \" -drun-display-format \"{name}\""), desc='Run Launcher'),
@@ -52,6 +60,10 @@ keys = [
     Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
     Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
     Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
+    Key([mod, "shift"], "s", lazy.spawn(app_lock), desc='Lock Qtile'),
+    Key([mod, "shift"], "p", lazy.spawn(app_password), desc='Password managers'),
+    Key([mod, "shift"], "f", lazy.spawn(app_file), desc='File manager'),
+    Key([mod, "shift"], "b", lazy.spawn(app_browser), desc='Browser'),
         
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -231,7 +243,7 @@ def init_widgets_list():
         widget.Memory(font = my_font, fontsize = fs, format = '{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}', background = colors[4],foreground = colors[2]),
         #wpipe(),
         #widget.TextBox(font = my_font, fontsize = fs, text = "VOL:",foreground = colors[2],background = colors[5],padding = 0),
-        #widget.Volume(foreground = colors[2],background = colors[5],padding = 5),
+        widget.Volume(foreground = colors[2],background = colors[5],padding = 5),
         wpipe(),
         widget.CurrentLayoutIcon(foreground = colors[0],background = colors[4],padding = 0,scale = 0.7),
         widget.CurrentLayout(foreground = colors[2],background = colors[4],padding = 5),
@@ -286,6 +298,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(wm_class='ssh-askpass'),  # ssh-askpass
     Match(title='branchdialog'),  # gitk
     Match(title='pinentry'),  # GPG key password entry
+    Match(title='Enpass'),  # GPG key password entry
 ])
 
 auto_fullscreen = True

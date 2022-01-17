@@ -6,7 +6,6 @@ nitrogen --restore &
 picom &
 volumeicon &
 nm-applet &
-gnome-screensaver &
-xautolock -time 10 -locker 'gnome-screensaver-command -l' &
+xautolock -time 10 -locker 'slock' &
 ~/.local/bin/g810-led -dp c33c -p ~/.config/logitech-keyboard.profile
 LG3D
