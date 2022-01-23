@@ -5,6 +5,7 @@ PKGINSTALL = sudo apt-get -y install
 ARCH_PKGINSTALL = sudo pacman -Sy 
 NPMINSTALL = sudo npm i -g
 SNAPINSTALL = sudo snap install
+PIPINSTALL = pip install
 YAYINSTALL = yay -S 
 RM = rm -rf
 CDSOURCES = cd $(BASE)/sources
@@ -223,7 +224,9 @@ arch-node:
 	$(ARCH_PKGINSTALL) nodejs npm 
 
 arch-python:
-	$(ARCH_PKGINSTALL) python-virtualenvwrapper ipython python-psutil
+	$(ARCH_PKGINSTALL) python-virtualenvwrapper ipython python-psutil python-pip
+	$(PIPINSTALL) python-env 
+
 
 #########################################
 #
@@ -247,15 +250,9 @@ debian-neovim: debian-all-languages
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
 
 arch-neovim: arch-all-languages
-	$(ARCH_PKGINSTALL) neovim 
-	$(NPMINSTALL) typescript 
-	$(NPMINSTALL) typescript-language-server
-	$(NPMINSTALL) diagnostic-languageserver
-	$(NPMINSTALL) eslint_d 
-	$(NPMINSTALL) pyright
-	$(NPMINSTALL) intelephense 
-	$(NPMINSTALL) bash-language-server 
-	$(NPMINSTALL) yaml-language-server
+	$(ARCH_PKGINSTALL) neovim ripgrep xsel
+	$(NPMINSTALL) neovim 
+	$(PIPINSTALL) pynvim 
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
 
 debian-jetbrains:
