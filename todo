@@ -1,0 +1,5 @@
+sudo pacman -S ripgrep
+sudo pacman -S xsel
+pip install pynvim
+npm i -g neovim
+
