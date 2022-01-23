@@ -96,20 +96,20 @@ arch-xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 arch-xbase:
-	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme blueman
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme blueman slock
 	sudo systemctl enable lightdm
 
 arch-xmonad: 
 	$(RM) ~/.xmonad
 	$(RM) ~/.config/xmobar
-	$(ARCH_PKGINSTALL) xmonad-contrib xmonad-utils xmonad xmobar dmenu trayer
+	$(ARCH_PKGINSTALL) xmonad-contrib xmonad-utils xmonad xmobar dmenu trayer rofi
 	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
 arch-qtile:
 	$(RM) ~/.config/qtile
-	$(ARCH_PKGINSTALL) qtile 
+	$(ARCH_PKGINSTALL) qtile dmenu rofi 
 	$(LN) $(BASE)/dotfiles/config/qtile $(HOME)/.config/qtile
 
 #########################################
@@ -278,6 +278,7 @@ debian-virtualization:
 
 user:
 	mkdir -p ~/Documents
+	mkdir -p ~/Downloads
 	cp -rf $(BASE)/wallpapers ~/Documents/
 #	rm -rf $(HOME)/.config/nitrogen
 #	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
