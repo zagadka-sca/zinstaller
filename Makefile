@@ -20,7 +20,7 @@ debian-install: debian_base debian-zsh debian-xserver debian-xserver-base debian
 
 debian-stage-two: alacritty snaps
 
-arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-zsh arch-all-languages arch-neovim arch-audio
+arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-qtile arch-zsh arch-all-languages arch-neovim arch-audio arch-yay user
 	
 
 #########################################
@@ -39,6 +39,7 @@ arch-base:
 	$(ARCH_PKGINSTALL) pass rsync
 	mkdir -p ~/.config
 	mkdir -p ~/.local
+	$(RM) $(BASE)/sources/yay-git
 	$(CDSOURCES) &&	$(GITCLONE) https://aur.archlinux.org/yay-git.git 
 	$(CDSOURCES)/yay-git && makepkg -si
 
