@@ -29,7 +29,7 @@ alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 alias ap='ansible-playbook'
 alias tf='terraform'
 
-alias vi='nvim'
+alias vi='lvim'
 alias eq='vi ~/.config/qtile/config.py'
 alias ea='vi ~/.config/alacritty/alacritty.yml'
 alias ev='vi ~/.vimrc'

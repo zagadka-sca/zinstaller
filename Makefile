@@ -20,7 +20,7 @@ debian-install: debian_base debian-zsh debian-xserver debian-xserver-base debian
 
 debian-stage-two: alacritty snaps
 
-arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-qtile arch-zsh arch-all-languages arch-neovim arch-audio arch-yay user
+arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-qtile arch-zsh arch-all-languages arch-lvim arch-audio arch-yay user
 	
 
 #########################################
@@ -257,6 +257,9 @@ arch-neovim: arch-all-languages
 	$(NPMINSTALL) bash-language-server 
 	$(NPMINSTALL) yaml-language-server
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
+
+arch-lvim:
+	bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 debian-jetbrains:
 	$(SNAPINSTALL) webstorm --classic

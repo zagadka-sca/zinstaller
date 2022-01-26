@@ -30,11 +30,18 @@ import subprocess
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
+from libqtile.layout.columns import Columns
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile import hook
 from libqtile.log_utils import logger
+
+from libqtile.layout.columns import Columns
+from libqtile.layout.xmonad import MonadWide 
+from libqtile.layout.xmonad import MonadTall 
+from libqtile.layout.max import Max 
+from libqtile.layout.tile import Tile 
 
 
 #Font Size
@@ -54,14 +61,13 @@ app_browser = "brave"
 app_password = "enpass"
 
 keys = [
+    Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
 
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show drun -display-drun \"Run: \" -drun-display-format \"{name}\""), desc='Run Launcher'),
-    #Key([mod, "shift"], "Return", lazy.spawn("rofi -show drun -config ~/.config/rofi/themes/dt-dmenu.rasi -display-drun \"Run: \" -drun-display-format \"{name}\""), desc='Run Launcher'),
-    Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
     Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
     Key([mod, "shift"], "s", lazy.spawn(app_lock), desc='Lock Qtile'),
-    Key([mod, "shift"], "p", lazy.spawn(app_password), desc='Password managers'),
     Key([mod, "shift"], "f", lazy.spawn(app_file), desc='File manager'),
     Key([mod, "shift"], "b", lazy.spawn(app_browser), desc='Browser'),
         
@@ -77,36 +83,15 @@ keys = [
     
     #Key([mod, "shift", "control"], "h", lazy.function(window_to_prev_group), desc='Move windos to prev monitor'),
     #Key([mod, "shift", "control"], "l", lazy.function(window_to_next_group), desc='Move windows to next monitor'),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    #Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    #Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    #Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    #Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    
     Key([mod, "shift"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "shift"], "h", lazy.layout.shrink_main(), desc="Grow window to the left"),
     Key([mod, "shift"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "shift"], "l", lazy.layout.grow_main(), desc="Grow window to the right"),
     Key([mod, "shift"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "shift"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    #Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
-    #    desc="Toggle between split and unsplit sides of stack"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
 group_names = [
@@ -159,25 +144,25 @@ def switch_screens(qtile):
 
 
 layout_theme = {"border_width": 2,
-                "margin": 12,
+                "margin": 6,
                 "border_focus": "DDDDDD",
                 "border_normal": "21252B"
                 }
 
 layouts = [
-    layout.MonadWide(**layout_theme),
-    #layout.Bsp(**layout_theme),
-    #layout.Stack(stacks=2, **layout_theme),
-    #layout.Columns(**layout_theme),
-    #layout.RatioTile(**layout_theme),
-    #layout.VerticalTile(**layout_theme),
-    #layout.Matrix(**layout_theme),
-    #layout.Zoomy(**layout_theme),
-    layout.MonadTall(**layout_theme),
-    layout.Max(**layout_theme),
-    layout.Tile(shift_windows=True, **layout_theme),
-    layout.Stack(num_stacks=2),
-    layout.Floating(**layout_theme)
+    MonadWide(**layout_theme),
+#     #layout.Bsp(**layout_theme),
+#     #layout.Stack(stacks=2, **layout_theme),
+    Columns(**layout_theme),
+#     #layout.RatioTile(**layout_theme),
+#     #layout.VerticalTile(**layout_theme),
+#     #layout.Matrix(**layout_theme),
+#     #layout.Zoomy(**layout_theme),
+    MonadTall(**layout_theme),
+    Max(**layout_theme),
+    Tile(shift_windows=True, **layout_theme),
+#     layout.Stack(num_stacks=2),
+#     layout.Floating(**layout_theme)
 ]
 
 colors = [["#282c34", "#282c34"], # panel background
@@ -197,23 +182,35 @@ widget_defaults = dict(
 
 extension_defaults = widget_defaults.copy()
 
+from libqtile.widget.textbox import TextBox
+from libqtile.widget.sep import Sep
+from libqtile.widget.systray import Systray
+from libqtile.widget.groupbox import GroupBox
+from libqtile.widget.prompt import Prompt
+from libqtile.widget.cpu import CPU
+from libqtile.widget.memory import Memory
+from libqtile.widget.clock import Clock
+from libqtile.widget.windowname import WindowName
+from libqtile.widget.volume import Volume
+from libqtile.widget.currentlayout import CurrentLayout, CurrentLayoutIcon
+
 # Spacer
 def wspacer():
-    return widget.TextBox(text = ' ',background = colors[4],foreground = colors[5],padding = 0)
+    return TextBox(text = ' ',background = colors[4],foreground = colors[5],padding = 0)
 
 def wseparator():
-    return widget.Sep(linewidth = 0,padding = 40,foreground = colors[2],background = colors[4])
+    return Sep(linewidth = 0,padding = 40,foreground = colors[2],background = colors[4])
 
 def wsystray():
-    return widget.Systray(foreground = colors[0], background = colors[5], padding = 5)
+    return Systray(foreground = colors[0], background = colors[5], padding = 5)
 
 def wpipe():
-   return widget.TextBox(text = "|",padding = 0,foreground = colors[3],background = colors[4])
+   return TextBox(text = "|",padding = 0,foreground = colors[3],background = colors[4])
 
 def init_widgets_list():
     widgets_list = [
-        widget.Sep(linewidth = 0,padding = 6,foreground = colors[2],background = colors[4]),
-        widget.GroupBox(
+        Sep(linewidth = 0,padding = 6,foreground = colors[2],background = colors[4]),
+        GroupBox(
                  font = my_font,
                  fontsize = fs,
                  margin_y = 3,
@@ -233,22 +230,20 @@ def init_widgets_list():
                  foreground = colors[2],
                  background = colors[4]
                  ),
-        widget.Prompt(font = my_font, fontsize = fs, padding = 10,foreground = colors[3],background = colors[4]),
-        widget.Sep(linewidth = 0,padding = 40,foreground = colors[2],background = colors[4]),
-        widget.WindowName(font = my_font, fontsize = fs, foreground = colors[6],background = colors[4],padding = 0),
-        widget.TextBox(text = 'CPU:',background = colors[4],foreground = colors[2],padding = 0),
-        widget.CPU(font = my_font, fontsize = fs, background = colors[4],foreground = colors[2],padding = 5,format= "{load_percent}%"),
+        Prompt(font = my_font, fontsize = fs, padding = 10,foreground = colors[3],background = colors[4]),
+        Sep(linewidth = 0,padding = 40,foreground = colors[2],background = colors[4]),
+        WindowName(font = my_font, fontsize = fs, foreground = colors[6],background = colors[4],padding = 0),
+        TextBox(text = 'CPU:',background = colors[4],foreground = colors[2],padding = 0),
+        CPU(font = my_font, fontsize = fs, background = colors[4],foreground = colors[2],padding = 5,format= "{load_percent}%"),
         wpipe(),
-        widget.TextBox(font = my_font, fontsize = fs, text = 'MEM:',background = colors[5],foreground = colors[2],padding = 0),
-        widget.Memory(font = my_font, fontsize = fs, format = '{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}', background = colors[4],foreground = colors[2]),
-        #wpipe(),
-        #widget.TextBox(font = my_font, fontsize = fs, text = "VOL:",foreground = colors[2],background = colors[5],padding = 0),
-        widget.Volume(foreground = colors[2],background = colors[5],padding = 5),
+        TextBox(font = my_font, fontsize = fs, text = 'MEM:',background = colors[5],foreground = colors[2],padding = 0),
+        Memory(font = my_font, fontsize = fs, format = '{MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}', background = colors[4],foreground = colors[2]),
+        Volume(foreground = colors[2],background = colors[5],padding = 5),
         wpipe(),
-        widget.CurrentLayoutIcon(foreground = colors[0],background = colors[4],padding = 0,scale = 0.7),
-        widget.CurrentLayout(foreground = colors[2],background = colors[4],padding = 5),
+        CurrentLayoutIcon(foreground = colors[0],background = colors[4],padding = 0,scale = 0.7),
+        CurrentLayout(foreground = colors[2],background = colors[4],padding = 5),
         wpipe(),
-        widget.Clock(font = my_font, fontsize = fs, foreground = colors[2],background = colors[5],format = "%A, %B %d  [ %H:%M ]"),
+        Clock(font = my_font, fontsize = fs, foreground = colors[2],background = colors[5],format = "%A, %B %d  [ %H:%M ]"),
         wpipe(),
     ]
     return widgets_list
@@ -301,6 +296,12 @@ floating_layout = layout.Floating(float_rules=[
     Match(title='Enpass'),  # GPG key password entry
 ])
 
+groups.append(ScratchPad('scratchpad', [
+    DropDown('enpass', 'enpass', width=0.4, x=0.3, y=0.2),
+]))
+keys.extend([
+    Key([mod, "shift"], "p", lazy.group['scratchpad'].dropdown_toggle('enpass'), desc='Password managers'),
+])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
