@@ -1,7 +1,7 @@
 #!/bin/sh
 export ZDOTDIR=$HOME/.config/zsh
 
-HISTFILE=~/.zsh_history
+HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory
@@ -10,6 +10,7 @@ setopt EXTENDED_HISTORY
 # add snap to path 
 #path+=('/snap/bin')
 path+=("$HOME/.scripts")
+path+=("$HOME/.local/bin")
 export path
 
 ## some useful options (man zshoptions)

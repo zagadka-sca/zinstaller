@@ -21,7 +21,7 @@ debian-install: debian_base debian-zsh debian-xserver debian-xserver-base debian
 
 debian-stage-two: alacritty snaps
 
-arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-qtile arch-zsh arch-all-languages arch-neovim arch-audio arch-yay user
+arch-install: arch-base arch-xserver arch-xbase arch-fonts arch-xmonad arch-qtile arch-zsh arch-all-languages arch-lvim arch-audio arch-yay user
 	
 
 #########################################
@@ -96,7 +96,7 @@ arch-xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 arch-xbase:
-	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme blueman slock
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme blueman slock dunst
 	sudo systemctl enable lightdm
 
 arch-xmonad: 
@@ -254,6 +254,9 @@ arch-neovim: arch-all-languages
 	$(NPMINSTALL) neovim 
 	$(PIPINSTALL) pynvim 
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
+
+arch-lvim:
+	bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 debian-jetbrains:
 	$(SNAPINSTALL) webstorm --classic

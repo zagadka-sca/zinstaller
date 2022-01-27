@@ -119,6 +119,11 @@ _G.packer_plugins = {
     path = "/home/scalaci/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["csv.vim"] = {
+    loaded = true,
+    path = "/home/scalaci/.local/share/nvim/site/pack/packer/start/csv.vim",
+    url = "https://github.com/chrisbra/csv.vim"
+  },
   ["darkplus.nvim"] = {
     loaded = true,
     path = "/home/scalaci/.local/share/nvim/site/pack/packer/start/darkplus.nvim",
