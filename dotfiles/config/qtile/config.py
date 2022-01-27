@@ -60,6 +60,11 @@ app_file = "pcmanfm"
 app_browser = "brave"
 app_password = "enpass"
 
+app_window_screenshot = "take_window_screenshot.bash"
+app_screen_screenshot = "take_screen_screenshot.bash"
+
+
+
 keys = [
     Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
 
@@ -70,6 +75,8 @@ keys = [
     Key([mod, "shift"], "s", lazy.spawn(app_lock), desc='Lock Qtile'),
     Key([mod, "shift"], "f", lazy.spawn(app_file), desc='File manager'),
     Key([mod, "shift"], "b", lazy.spawn(app_browser), desc='Browser'),
+    Key([mod, "shift"], "t", lazy.spawn(app_window_screenshot), desc='Window Screenshot'),
+    Key([mod, "control"], "t", lazy.spawn(app_screen_screenshot), desc='Screen Screenshot'),
         
     # Switch between windows
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
