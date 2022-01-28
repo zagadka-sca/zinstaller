@@ -5,6 +5,7 @@ PKGINSTALL = sudo apt-get -y install
 ARCH_PKGINSTALL = sudo pacman -Sy 
 NPMINSTALL = sudo npm i -g
 SNAPINSTALL = sudo snap install
+PIPINSTALL = pip install
 YAYINSTALL = yay -S 
 RM = rm -rf
 CDSOURCES = cd $(BASE)/sources
@@ -95,20 +96,20 @@ arch-xserver:
 	sudo cp -f /root/xorg.conf.new /etc/X11/xorg.conf
 
 arch-xbase:
-	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme blueman dunst xdotool
+	$(ARCH_PKGINSTALL) lightdm lightdm-gtk-greeter lightdm-gtk-greeter lightdm-webkit2-greeter lightdm-pantheon-greeter lightdm-webkit-theme-litarvan lightdm-gtk-greeter-settings picom nitrogen alacritty volumeicon network-manager-applet trayer lxsession xautolock volumeicon lxappearance arc-gtk-theme adapta-gtk-theme arc-solid-gtk-theme deepin-gtk-theme gtk-theme-elementary materia-gtk-theme pop-gtk-theme blueman slock dunst xdotool
 	sudo systemctl enable lightdm
 
 arch-xmonad: 
 	$(RM) ~/.xmonad
 	$(RM) ~/.config/xmobar
-	$(ARCH_PKGINSTALL) xmonad-contrib xmonad-utils xmonad xmobar dmenu trayer
+	$(ARCH_PKGINSTALL) xmonad-contrib xmonad-utils xmonad xmobar dmenu trayer rofi
 	$(LN) $(BASE)/dotfiles/xmonad $(HOME)/.xmonad
 	$(LN) $(BASE)/dotfiles/config/xmobar $(HOME)/.config/xmobar
 	sudo cp -r $(BASE)/dotfiles/xmonad.desktop /usr/share/xsessions
 
 arch-qtile:
 	$(RM) ~/.config/qtile
-	$(ARCH_PKGINSTALL) qtile 
+	$(ARCH_PKGINSTALL) qtile dmenu rofi 
 	$(LN) $(BASE)/dotfiles/config/qtile $(HOME)/.config/qtile
 
 #########################################
@@ -223,7 +224,9 @@ arch-node:
 	$(ARCH_PKGINSTALL) nodejs npm 
 
 arch-python:
-	$(ARCH_PKGINSTALL) python-virtualenvwrapper ipython python-psutil
+	$(ARCH_PKGINSTALL) python-virtualenvwrapper ipython python-psutil python-pip
+	$(PIPINSTALL) python-env 
+
 
 #########################################
 #
@@ -247,15 +250,9 @@ debian-neovim: debian-all-languages
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
 
 arch-neovim: arch-all-languages
-	$(ARCH_PKGINSTALL) neovim 
-	$(NPMINSTALL) typescript 
-	$(NPMINSTALL) typescript-language-server
-	$(NPMINSTALL) diagnostic-languageserver
-	$(NPMINSTALL) eslint_d 
-	$(NPMINSTALL) pyright
-	$(NPMINSTALL) intelephense 
-	$(NPMINSTALL) bash-language-server 
-	$(NPMINSTALL) yaml-language-server
+	$(ARCH_PKGINSTALL) neovim ripgrep xsel
+	$(NPMINSTALL) neovim 
+	$(PIPINSTALL) pynvim 
 	$(LN) $(BASE)/dotfiles/config/nvim $(HOME)/.config/nvim
 
 arch-lvim:
@@ -284,6 +281,7 @@ debian-virtualization:
 
 user:
 	mkdir -p ~/Documents
+	mkdir -p ~/Downloads
 	cp -rf $(BASE)/wallpapers ~/Documents/
 #	rm -rf $(HOME)/.config/nitrogen
 #	$(LN) $(BASE)/dotfiles/config/nitrogen $(HOME)/.config/nitrogen
