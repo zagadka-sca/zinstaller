@@ -202,6 +202,7 @@ from libqtile.widget.clock import Clock
 from libqtile.widget.windowname import WindowName
 from libqtile.widget.volume import Volume
 from libqtile.widget.currentlayout import CurrentLayout, CurrentLayoutIcon
+from libqtile.widget.battery import Battery, BatteryIcon
 
 # Spacer
 def wspacer():
@@ -251,6 +252,9 @@ def init_widgets_list():
         wpipe(),
         CurrentLayoutIcon(foreground = colors[0],background = colors[4],padding = 0,scale = 0.7),
         CurrentLayout(foreground = colors[2],background = colors[4],padding = 5),
+        wpipe(),
+        TextBox(text = 'Bat:',background = colors[4],foreground = colors[2],padding = 0),
+        Battery(foreground = colors[2],background = colors[4],padding = 5),
         wpipe(),
         Clock(font = my_font, fontsize = fs, foreground = colors[2],background = colors[5],format = "%A, %B %d  [ %H:%M ]"),
         wpipe(),

@@ -208,7 +208,7 @@ debian-node:
 	sudo apt update && sudo apt-get install -y nodejs
 
 angular:
-	sudo npm install -g @angular/cli@7
+	sudo npm install -g @angular/cli
 	sudo npm install --global sass
 	sudo npm install --global less
 

@@ -1,9 +1,9 @@
 #!/bin/sh
 export ZDOTDIR=$HOME/.config/zsh
 
-HISTFILE=$HOME/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=1000
 setopt appendhistory
 setopt EXTENDED_HISTORY
 
@@ -11,6 +11,9 @@ setopt EXTENDED_HISTORY
 #path+=('/snap/bin')
 path+=("$HOME/.scripts")
 path+=("$HOME/.local/bin")
+path+=("$HOME/.local/share/gem/ruby/3.0.0/bin")
+path+=("$HOME/.npm-global/bin")
+
 export path
 
 ## some useful options (man zshoptions)

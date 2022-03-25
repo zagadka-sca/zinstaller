@@ -3,7 +3,7 @@
 $HOME/.scripts/default.sh
 #lxsession 
 nitrogen --restore &
-picom &
+# picom &
 volumeicon &
 nm-applet &
 blueman-applet &
