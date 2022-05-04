@@ -65,6 +65,33 @@ app_password = "enpass"
 app_active_windows_screenshot = home + "/.scripts/take_screenshot_of_active_windows.bash"
 app_selected_zone_screenshot = home + "/.scripts/take_screenshot_of_selected_zone.bash"
 
+def window_to_prev_group(qtile):
+    if qtile.current_window is not None:
+        i = qtile.groups.index(qtile.current_group)
+        qtile.current_window.togroup(qtile.groups[i - 1].name)
+
+def window_to_next_group(qtile):
+    if qtile.current_window is not None:
+        i = qtile.groups.index(qtile.current_group)
+        qtile.current_window.togroup(qtile.groups[i + 1].name)
+
+def window_to_previous_screen(qtile):
+
+    i = qtile.screens.index(qtile.currentScreen)
+    if i != 0:
+        group = qtile.screens[i - 1].group.name
+        qtile.current_window.togroup(group)
+
+def window_to_next_screen(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    if i + 1 != len(qtile.screens):
+        group = qtile.screens[i + 1].group.name
+        qtile.current_window.togroup(group)
+
+def switch_screens(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    group = qtile.screens[i - 1].group
+    qtile.current_screen.set_group(group)
 
 
 keys = [
@@ -90,8 +117,8 @@ keys = [
     Key([mod, "control"], "h", lazy.screen.prev_group(), desc='Move focus to prev monitor'),
     Key([mod, "control"], "l", lazy.screen.next_group(), desc='Move focus to next monitor'),
     
-    #Key([mod, "shift", "control"], "h", lazy.function(window_to_prev_group), desc='Move windos to prev monitor'),
-    #Key([mod, "shift", "control"], "l", lazy.function(window_to_next_group), desc='Move windows to next monitor'),
+    Key([mod, "shift", "control"], "h", lazy.function(window_to_prev_group), desc='Move windos to prev monitor'),
+    Key([mod, "shift", "control"], "l", lazy.function(window_to_next_group), desc='Move windows to next monitor'),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     
@@ -124,32 +151,6 @@ keys.append(Key([mod], "F6", lazy.group["6-Sys"].toscreen()))
 keys.append(Key([mod], "F7", lazy.group["7-Com"].toscreen()))
 
 
-def window_to_prev_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
-
-def window_to_next_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
-
-def window_to_previous_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i != 0:
-        group = qtile.screens[i - 1].group.name
-        qtile.current_window.togroup(group)
-
-def window_to_next_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i + 1 != len(qtile.screens):
-        group = qtile.screens[i + 1].group.name
-        qtile.current_window.togroup(group)
-
-def switch_screens(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    group = qtile.screens[i - 1].group
-    qtile.current_screen.set_group(group)
 
 
 layout_theme = {"border_width": 2,
@@ -261,24 +262,22 @@ def init_widgets_list():
     ]
     return widgets_list
 
-def init_widgets_screen1():
-    widgets_screen1 = init_widgets_list()
-    widgets_screen1.append(wsystray())
-    widgets_screen1.append(wspacer())
+def init_widgets_main_screen():
+    widgets_main_screen = init_widgets_list()
+    widgets_main_screen.append(wsystray())
+    widgets_main_screen.append(wspacer())
+    return widgets_main_screen
 
-    return widgets_screen1
-
-def init_widgets_screen2():
-    widgets_screen2 = init_widgets_list()
-    widgets_screen2.append(wsystray())
-    widgets_screen2.append(wspacer())
-    return widgets_screen2
+def init_widgets_other_screen():
+    widgets_other_screen = init_widgets_list()
+    return widgets_other_screen
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(init_widgets_screen1(), bar_spacer)),
-        Screen(top=bar.Bar(init_widgets_screen1(), bar_spacer)),
-        Screen(top=bar.Bar(init_widgets_screen1(), bar_spacer)),
+        Screen(top=bar.Bar(init_widgets_main_screen(), bar_spacer)),
+        Screen(top=bar.Bar(init_widgets_other_screen(), bar_spacer)),
+        Screen(top=bar.Bar(init_widgets_other_screen(), bar_spacer)),
+        Screen(top=bar.Bar(init_widgets_other_screen(), bar_spacer)),
     ]
 
 screens = init_screens()
@@ -350,7 +349,7 @@ def show_keys():
 
     return key_help
 
-keys.extend([Key([mod], "h", lazy.spawn("sh -c 'echo \"" + show_keys() + "\" | rofi -dmenu -i -mesg \"Keyboard shortcuts\"'"), desc="Print keyboard bindings"),])
+keys.extend([Key([mod], "p", lazy.spawn("sh -c 'echo \"" + show_keys() + "\" | rofi -dmenu -i -mesg \"Keyboard shortcuts\"'"), desc="Print keyboard bindings"),])
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
